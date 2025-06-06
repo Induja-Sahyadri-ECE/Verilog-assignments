@@ -1,0 +1,42 @@
+// Code your design here
+module mux4to1(
+  input [3:0] a,
+  input [1:0] select,
+  output reg out 
+);
+  always@(*)
+    begin
+      case (select)
+      	 2'b00: out = a[0];
+         2'b01: out = a[1];
+         2'b10: out = a[2];
+         2'b11: out = a[3];
+       endcase
+    end
+endmodule 
+
+
+// Code your testbench here
+module tb_mux4to1;
+  reg [3:0] a;
+  reg [1:0] select;
+  wire out;
+
+  mux4to1 uut (.a(a), .select(select), .out(out));
+
+    initial begin
+      $dumpfile("waveform.vcd");     
+      $dumpvars(0, tb_mux4to1);       
+      $display("Select Input   | Out");
+      $monitor("%b  %b |  %b", select, a, out);
+
+        a = 4'b1010;
+
+        select = 2'b00; #10;
+        select = 2'b01; #10;
+        select = 2'b10; #10;
+        select = 2'b11; #10;
+
+        $finish;
+    end
+endmodule
